@@ -32,6 +32,14 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/informe/economico', funct
     return view('reporte-ingreso');
 })->name('reporte.ingreso');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/tipo-ingresos', function () {
+    return view('tipo-ingreso');
+})->name('tipo.ingreso');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/tipo-egresos', function () {
+    return view('tipo-egreso');
+})->name('tipo.egreso');
+
 
 Route::get('/ingresos/export-excel', [IngresoController::class, 'exportExcel'])->name('ingresos.export');
 //  informe economico Excel

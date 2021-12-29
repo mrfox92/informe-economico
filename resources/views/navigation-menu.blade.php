@@ -13,7 +13,6 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{-- {{ __('Dashboard') }} --}}
                         Ingresos
                     </x-jet-nav-link>
 
@@ -25,6 +24,16 @@
                     <x-jet-nav-link href="{{ route('reporte.ingreso') }}"
                         :active="request()->routeIs('reporte.ingreso')">
                         Informe económico
+                    </x-jet-nav-link>
+
+                    <x-jet-nav-link href="{{ route('tipo.ingreso') }}"
+                        :active="request()->routeIs('tipo.ingreso')">
+                        Tipo ingresos
+                    </x-jet-nav-link>
+
+                    <x-jet-nav-link href="{{ route('tipo.egreso') }}"
+                        :active="request()->routeIs('tipo.egreso')">
+                        Tipo egresos
                     </x-jet-nav-link>
                 </div>
             </div>

@@ -25,8 +25,13 @@ class ReporteIngresoComponent extends Component
     public $tipo_egreso_mes = [];
     public $total_periodo_egresos = [];
 
-    //  generar cabecera con meses
-    //  
+    protected $messages = [
+        'init_month.required'   =>  'El campo mes inicio periodo es obligatorio.',
+        'init_year.required'    =>  'El campo año inicio periodo es obligatorio.',
+        'limit_month.required'  =>  'El campo mes fin periodo es obligatorio.',
+        'limit_year.required'   =>  'El campo año hasta es obligatorio.',
+        'limit_year.gte'        =>  'El campo año hasta debe ser mayor o igual a :value'
+    ];
 
     public function render()
     {
@@ -48,16 +53,44 @@ class ReporteIngresoComponent extends Component
     {
         return ( $subtotal - $egresos );
     }
+
+    private function restaurar() {
+
+        $this->ingresos = [];
+        $this->ingresos_meses = [];
+        $this->tipo_ingreso_mes = [];
+        $this->total_periodo = [];
+
+        $this->egresos = [];
+        $this->egresos_meses = [];
+        $this->tipo_egreso_mes = [];
+        $this->total_periodo_egresos = [];
+
+        $this->total_ingresos_periodo = 0;
+        $this->saldo_ejercicio_anterior = 0;
+        $this->subtotal = 0;
+        $this->menos_egresos_periodo = 0;
+        $this->saldo_ejercicio_siguiente = 0;
+    }
     
     public function store()
     {
 
+        $this->restaurar();
+
+        //  campo 1: 2019
+        //  campo 2: 2020
+
+        //  2020 >= 2019
+        //  campo 2 >= campo 1
+
+        //  
         $this->validate([
             'init_month'    =>  'required',
-            'init_year'     =>  'required',
+            'init_year'     =>  'required|numeric',
             'limit_month'   =>  'required',
-            'limit_year'    =>  'required'
-        ]);
+            'limit_year'    =>  'required|numeric|gte:init_year'
+        ], $this->messages);
 
         //  TODO: Validar si el mes y año limite es igual a mes y año inicial
         //  TODO: calcular total ingresos
@@ -103,6 +136,8 @@ class ReporteIngresoComponent extends Component
         ->groupBy('tipo_ingreso_id')
         ->orderBy('tipo_ingreso_id', 'ASC')
         ->get();
+
+        // dd( $this->ingresos_meses );
 
         //  TODO: tipos ingresos ordenados por mes
         $this->tipo_ingreso_mes = Ingreso::with('tipoIngreso')
@@ -186,7 +221,6 @@ class ReporteIngresoComponent extends Component
 
         //  saldo_ejercicio_siguiente
         $this->saldo_ejercicio_siguiente = $this->calcularPeriodoSiguiente( $this->subtotal, $this->menos_egresos_periodo );
-
 
         //  1.222.044 --> Saldo ejercicio anterior
         //  1.850.370 --> egresos

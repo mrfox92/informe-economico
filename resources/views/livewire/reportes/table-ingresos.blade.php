@@ -1,4 +1,6 @@
 {{-- Tabla ingresos comienzo --}}
+@if ( isset( $ingresos ) && !empty( $ingresos ) && isset( $ingresos_meses ) && !empty( $ingresos_meses ) && isset( $tipo_ingreso_mes ) && !empty( $tipo_ingreso_mes ) )
+    
 <section class="antialiased bg-gray-100 text-gray-600 h-screen px-4 mt-4">
     <div class="flex flex-col justify-center h-full">
         <!-- Table -->
@@ -37,38 +39,42 @@
                             <tr>
                                 @foreach ($ingresos_meses as $mes)
 
-                            <tr>
-                                <td class="p-2 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="font-medium text-gray-800">
-                                            {{                                             number_format($mes->totales, 0, ',', '.') }}
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>{{ $mes->tipoIngreso->titulo }}</td>
-
-                                @foreach ($tipo_ingreso_mes as $item)
-
-                                    @if ($item->tipo_ingreso_id === $mes->tipo_ingreso_id)
-
-                                        <td class="p-2 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="font-medium text-green-500">
-                                                    {{                                                     number_format($item->monto, 0, ',', '.') }}
-                                                </div>
+                                <tr>
+                                    <td class="p-2 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="font-medium text-gray-800">
+                                                {{
+                                                    number_format($mes->totales, 0, ',', '.')
+                                                }}
                                             </div>
-                                        </td>
-                                    @endif
+                                        </div>
+                                    </td>
+                                    <td>{{ $mes->tipoIngreso->titulo }}</td>
 
-                                @endforeach
-                            </tr>
+                                    @foreach ($tipo_ingreso_mes as $item)
+
+                                        @if ($item->tipo_ingreso_id === $mes->tipo_ingreso_id)
+
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div class="font-medium text-green-500">
+                                                        {{                                                     number_format($item->monto, 0, ',', '.') }}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        @endif
+
+                                    @endforeach
+                                </tr>
                             @endforeach
                             <td class="p-2 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="font-medium text-gray-800">
 
                                         @if (isset($total_periodo[0]->total_ingresos) && !empty($total_periodo[0]->total_ingresos))
-                                            {{                                             number_format($total_periodo[0]->total_ingresos, 0, ',', '.') }}
+                                            {{
+                                                number_format($total_periodo[0]->total_ingresos, 0, ',', '.')
+                                            }}
                                         @else
                                             &nbsp;
                                         @endif
@@ -83,7 +89,9 @@
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="font-medium text-green-800">
-                                            {{                                             number_format($ingreso->ingreso_neto, 0, ',', '.') }}
+                                            {{
+                                                number_format($ingreso->ingreso_neto, 0, ',', '.')
+                                            }}
                                         </div>
                                     </div>
                                 </td>
@@ -98,7 +106,10 @@
 
     </div>
 </section>
+@endif
 {{-- Tabla ingresos fin --}}
+
+@if ( isset( $egresos ) && !empty( $egresos ) && isset( $egresos_meses ) && !empty( $egresos_meses ) && isset( $tipo_egreso_mes ) && !empty( $tipo_egreso_mes ) )
 
 {{-- Tabla egresos comienzo --}}
 <section class="antialiased bg-gray-100 text-gray-600 h-screen px-4 mt-4">
@@ -199,8 +210,11 @@
     </div>
 </section>
 {{-- Tabla egresos fin --}}
+@endif
 
 {{-- Tabla Resumen anual inicio --}}
+@if ( isset( $ingresos ) && !empty( $ingresos ) && isset( $egresos ) && !empty( $egresos ) )
+    
 <section class="antialiased bg-gray-100 text-gray-600 h-screen px-4 mt-4">
     <div class="flex flex-col justify-center h-full">
         <!-- Table -->
@@ -246,7 +260,6 @@
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="font-medium text-gray-800">
-                                            {{-- number_format($mes->totales, 0, ',', '.') --}}
                                             {{ number_format($total_ingresos_periodo, 0, ',', '.') }}
                                         </div>
                                     </div>
@@ -289,10 +302,11 @@
 
     </div>
 </section>
+@endif
 
 
 {{-- Tabla Resumen anual fin --}}
-@if ( isset( $init_month ) && isset( $init_year ) && isset( $limit_month ) && isset( $limit_year ) )
+@if ( isset( $init_month ) && isset( $init_year ) && isset( $limit_month ) && isset( $limit_year ) && isset( $ingresos ) && !empty( $ingresos ) && isset( $egresos ) && !empty( $egresos ) )
 
 <div class="flex flex-col">
     <div class="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -333,7 +347,7 @@
 
 
 {{-- Tabla Resumen anual fin --}}
-@if ( isset( $init_month ) && isset( $init_year ) && isset( $limit_month ) && isset( $limit_year ) )
+@if ( isset( $init_month ) && isset( $init_year ) && isset( $limit_month ) && isset( $limit_year ) && isset( $ingresos ) && !empty( $ingresos ) && isset( $egresos ) && !empty( $egresos ) )
 
 <div class="flex flex-col">
     <div class="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
